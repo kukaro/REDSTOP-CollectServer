@@ -1,0 +1,15 @@
+[app]
+name = "REDSTOP Collect Server"
+owner = "KTJ, CYJ, AJH"
+
+[static]
+type = "DEFAULT" #default is normal static
+
+[server]
+addr = ":2000"
+domain_web = "localhost:2000/"
+domain_api = "localhost:2000/api"
+domain_web_socket = "localhost:2000/ws"
+
+[testServer]
+test_domain = "http://localhost:3000/"
