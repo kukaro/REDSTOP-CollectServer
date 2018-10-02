@@ -1,4 +1,4 @@
-tuser -k 2000/tcp
+fuser -k 2000/tcp
 
 rm -rf ~/go
 
