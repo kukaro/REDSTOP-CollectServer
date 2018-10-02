@@ -44,9 +44,10 @@ func main() {
 		log.Fatal(http.ListenAndServe(":3100", nil))
 	}()
 
-	if err := conf.Init(""); err == nil {
-		fmt.Println("config success")
-	}
-	router.RunSubDomains()
-
+	go func(){
+		if err := conf.Init(""); err == nil {
+			fmt.Println("config success")
+		}
+		router.RunSubDomains()
+	}()
 }
