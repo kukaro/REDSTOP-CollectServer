@@ -50,4 +50,5 @@ func main() {
 		}
 		router.RunSubDomains()
 	}()
+	fmt.Println("hi")
 }
