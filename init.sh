@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-fuser -k 2000/tcp
+sudo pmgo delete collect-server
 
 rm -rf ~/go
 
