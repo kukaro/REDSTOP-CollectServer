@@ -3,13 +3,24 @@ package main
 import (
 	"./conf"
 	"./router"
+	"encoding/json"
 	"fmt"
 	"github.com/googollee/go-socket.io"
 	"github.com/graarh/golang-socketio"
 	"github.com/graarh/golang-socketio/transport"
+	"io/ioutil"
 	"log"
 	"net/http"
 )
+
+type RsUser struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Success  bool   `json:"success"`
+}
+
+type RsUrls struct {
+}
 
 func main() {
 	go func() {
@@ -40,9 +51,32 @@ func a() {
 			log.Println("on disconnect")
 		})
 		so.On("reqSignIn", func(data map[string]string) {
+			//log.Println(data)
+			resp, _ := http.Get("http://localhost:3000/api/v1/sign-in/" + data["username"] + "/" + data["password"])
+			body, _ := ioutil.ReadAll(resp.Body)
+			rsUser := RsUser{}
+			json.Unmarshal(body, &rsUser)
+			log.Println(rsUser)
+			if rsUser.Success == true {
+				log.Println("success")
+				//jsonData, _ := json.Marshal(rsUser)
+				go func() {
+					so.Emit("getAuth", rsUser);
+				}()
+			}
+		})
+		so.On("reqUrls", func(data map[string]string) {
 			log.Println(data)
-			res, _ := http.Get("http://localhost:3000/api/v1/sign-in/" + data["id"] + "/" + data["pw"])
-			log.Println(res)
+			resp, _ := http.Get("http://localhost:3000/api/v1/urls/" + data["username"])
+			body, _ := ioutil.ReadAll(resp.Body)
+			jsonData := []interface{}{}
+			json.Unmarshal(body, &jsonData)
+			//for index, value := range jsonData {
+			//	fmt.Println(index, value)
+			//}
+			go func() {
+				so.Emit("getUrls", jsonData);
+			}()
 		})
 	})
 	server.On("error", func(so socketio.Socket, err error) {
