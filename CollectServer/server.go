@@ -41,6 +41,7 @@ func a() {
 		})
 		so.On("reqSignIn", func(data map[string]string) {
 			log.Println(data)
+			http.Get("http://localhost:3000/api/v1/sign-in")
 		})
 	})
 	server.On("error", func(so socketio.Socket, err error) {
@@ -55,8 +56,8 @@ func a() {
 	})
 	//http.Handle("/socket.io/", server)
 	//http.Handle("/", http.FileServer(http.Dir("./asset")))
-	log.Println("Serving at localhost:3100...")
-	log.Fatal(http.ListenAndServe(":3100", nil))
+	log.Println("Serving at localhost:2100...")
+	log.Fatal(http.ListenAndServe(":2100", nil))
 }
 
 func b() {
