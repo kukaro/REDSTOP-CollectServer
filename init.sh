@@ -15,4 +15,5 @@ go get -u github.com/BurntSushi/toml
 cd ~/CollectServer/CollectServer
 go build ~/CollectServer/CollectServer/server.go
 
+cd ~/CollectServer
 sudo sh server.sh
