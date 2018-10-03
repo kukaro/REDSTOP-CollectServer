@@ -10,3 +10,6 @@ go get -u golang.org/x/net/websocket
 go get -u github.com/googollee/go-socket.io
 go get -u github.com/rs/cors
 go get -u github.com/BurntSushi/toml
+
+go buile ~/CollectServer/CollectServer/server.go
+~/CollectServer/CollectServer/server &
