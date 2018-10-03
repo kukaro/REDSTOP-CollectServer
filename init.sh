@@ -12,5 +12,6 @@ go get -u github.com/googollee/go-socket.io
 go get -u github.com/rs/cors
 go get -u github.com/BurntSushi/toml
 
+cd ~/CollectServer/CollectServer
 go build ~/CollectServer/CollectServer/server.go
 ~/CollectServer/CollectServer/server &
