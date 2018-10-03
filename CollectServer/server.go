@@ -41,7 +41,7 @@ func a() {
 		})
 		so.On("reqSignIn", func(data map[string]string) {
 			log.Println(data)
-			http.Get("http://localhost:3000/api/v1/sign-in")
+			http.Get("http://localhost:3000/api/v1/sign-in/" + data["id"] + "/" + data["pw"])
 		})
 	})
 	server.On("error", func(so socketio.Socket, err error) {
@@ -71,7 +71,7 @@ func b() {
 	})
 
 	type Message struct {
-		Name string `json:"name"`
+		Name    string `json:"name"`
 		Message string `json:"message"`
 	}
 
