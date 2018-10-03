@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 cd ~/CollectServer/CollectServer
-sudo ./server &
+sudo pmgo start . collect-server
