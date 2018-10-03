@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 fuser -k 2000/tcp
 
 rm -rf ~/go
@@ -11,5 +12,5 @@ go get -u github.com/googollee/go-socket.io
 go get -u github.com/rs/cors
 go get -u github.com/BurntSushi/toml
 
-go buile ~/CollectServer/CollectServer/server.go
+go build ~/CollectServer/CollectServer/server.go
 ~/CollectServer/CollectServer/server &
