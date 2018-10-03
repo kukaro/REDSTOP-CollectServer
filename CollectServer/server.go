@@ -41,7 +41,8 @@ func a() {
 		})
 		so.On("reqSignIn", func(data map[string]string) {
 			log.Println(data)
-			http.Get("http://localhost:3000/api/v1/sign-in/" + data["id"] + "/" + data["pw"])
+			res, _ := http.Get("http://localhost:3000/api/v1/sign-in/" + data["id"] + "/" + data["pw"])
+			log.Println(res)
 		})
 	})
 	server.On("error", func(so socketio.Socket, err error) {
