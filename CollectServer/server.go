@@ -46,7 +46,7 @@ func a() {
 		//so.On("chat message", func(msg string) {
 		//	log.Println("emit:", so.Emit("chat message", msg))
 		//	so.BroadcastTo("chat", "chat message", msg)
-		//})
+		//})ㅊ
 		so.On("disconnection", func() {
 			log.Println("on disconnect")
 		})
@@ -77,6 +77,22 @@ func a() {
 			go func() {
 				so.Emit("getUrls", jsonData);
 			}()
+		})
+		so.On("reqScenarios", func(data map[string]string) {
+			log.Println(data)
+			resp, _ := http.Get("http://localhost:3000/api/v1/scenarios/" + data["username"])
+			body, _ := ioutil.ReadAll(resp.Body)
+			jsonData := []interface{}{}
+			json.Unmarshal(body, &jsonData)
+			//for index, value := range jsonData {
+			//	fmt.Println(index, value)
+			//}
+			go func() {
+				so.Emit("getScenarios", jsonData);
+			}()
+		})
+		so.On("sendVisitData", func(data map[string]interface{}) {
+			log.Println(data)
 		})
 	})
 	server.On("error", func(so socketio.Socket, err error) {
