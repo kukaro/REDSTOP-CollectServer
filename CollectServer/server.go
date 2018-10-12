@@ -3,6 +3,7 @@ package main
 import (
 	"./conf"
 	"./router"
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/googollee/go-socket.io"
@@ -17,6 +18,30 @@ type RsUser struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 	Success  bool   `json:"success"`
+}
+
+type VisitData struct {
+	Username          string      `json:"username"`
+	Name              string      `json:"name"`
+	Url               string      `json:"url"`
+	Method            string      `json:"method"`
+	Data              interface{} `json:"data"`
+	DeviceInformation interface{} `json:"deviceInformation"`
+	ResponseTime      int         `json:"responsetime"`
+	Status            int         `json:"status"`
+}
+
+type MarshalVisitData struct {
+	Username     string      `json:"username"`
+	Name         string      `json:"name"`
+	Url          string      `json:"url"`
+	Method       string      `json:"method"`
+	Data         interface{} `json:"data"`
+	Isp          string      `json:"isp"`
+	Platform     string      `json:"platform"`
+	Region       string      `json:"region"`
+	ResponseTime int         `json:"responsetime"`
+	Status       int         `json:"status"`
 }
 
 type RsUrls struct {
@@ -92,7 +117,29 @@ func a() {
 			}()
 		})
 		so.On("sendVisitData", func(data map[string]interface{}) {
-			log.Println(data)
+			jsonStr, _ := json.Marshal(data)
+			visitData := VisitData{}
+			json.Unmarshal(jsonStr, &visitData)
+			marshalVisitData := &MarshalVisitData{}
+			marshalVisitData.Username = visitData.Username
+			marshalVisitData.Name = visitData.Name
+			marshalVisitData.Method = visitData.Method
+			marshalVisitData.Url = visitData.Url
+			marshalVisitData.Data = visitData.Data
+			deviceInformation := visitData.DeviceInformation.(map[string]interface{})
+			marshalVisitData.Isp = deviceInformation["myISP"].(string)
+			marshalVisitData.Platform = deviceInformation["myPlatform"].(string)
+			marshalVisitData.Region = deviceInformation["myRegion"].(string)
+			marshalVisitData.Status = visitData.Status
+			marshalVisitData.ResponseTime = visitData.ResponseTime
+			//log.Println(visitData)
+			//log.Println(deviceInformation)
+			jsonVisitData, _ := json.Marshal(marshalVisitData)
+
+			go func() {
+				result, _ := http.Post("http://localhost:7000/api/v1/send-url", "application/json; charset=UTF-8", bytes.NewBuffer([]byte(jsonVisitData)))
+				fmt.Println(result)
+			}()
 		})
 	})
 	server.On("error", func(so socketio.Socket, err error) {
