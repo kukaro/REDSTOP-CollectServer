@@ -10,8 +10,8 @@ addr = ":2000"
 domain_web = "localhost:2000/"
 domain_api = "localhost:2000/api"
 domain_web_socket = "localhost:2000/ws"
+worker_domain = "http://54.180.31.203:7000"
+api_server_domain = "http://52.79.221.114:3000"
 
 [testServer]
 test_domain = "http://localhost:3000/"
-worker_domain = "http://54.180.31.203:7000"
-api_server_domain = "http://52.79.221.114:3000"
