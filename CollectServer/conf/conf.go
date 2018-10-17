@@ -37,6 +37,8 @@ type server struct {
 	DomainApi       string `toml:"domain_api"`
 	DomainWeb       string `toml:"domain_web"`
 	DomainWebSocket string `toml:"domain_web_socket"`
+	WorkerDomain    string `toml:"worker_domain"`
+	ApiServerDomain string `toml:"api_server_domain"`
 }
 
 func Init(configFile string) error {

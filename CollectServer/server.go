@@ -77,7 +77,7 @@ func a() {
 		})
 		so.On("reqSignIn", func(data map[string]string) {
 			//log.Println(data)
-			resp, _ := http.Get("http://localhost:3000/api/v1/sign-in/" + data["username"] + "/" + data["password"])
+			resp, _ := http.Get(conf.Conf.Server.ApiServerDomain+"/api/v1/sign-in/" + data["username"] + "/" + data["password"])
 			body, _ := ioutil.ReadAll(resp.Body)
 			rsUser := RsUser{}
 			json.Unmarshal(body, &rsUser)
@@ -92,7 +92,7 @@ func a() {
 		})
 		so.On("reqUrls", func(data map[string]string) {
 			log.Println(data)
-			resp, _ := http.Get("http://localhost:3000/api/v1/urls/" + data["username"])
+			resp, _ := http.Get(conf.Conf.Server.ApiServerDomain+"/api/v1/urls/" + data["username"])
 			body, _ := ioutil.ReadAll(resp.Body)
 			jsonData := []interface{}{}
 			json.Unmarshal(body, &jsonData)
@@ -105,7 +105,7 @@ func a() {
 		})
 		so.On("reqScenarios", func(data map[string]string) {
 			log.Println(data)
-			resp, _ := http.Get("http://localhost:3000/api/v1/scenarios/" + data["username"])
+			resp, _ := http.Get(conf.Conf.Server.ApiServerDomain+"/api/v1/scenarios/" + data["username"])
 			body, _ := ioutil.ReadAll(resp.Body)
 			jsonData := []interface{}{}
 			json.Unmarshal(body, &jsonData)
@@ -137,7 +137,7 @@ func a() {
 			jsonVisitData, _ := json.Marshal(marshalVisitData)
 
 			go func() {
-				result, _ := http.Post("http://localhost:7000/api/v1/send-url", "application/json; charset=UTF-8", bytes.NewBuffer([]byte(jsonVisitData)))
+				result, _ := http.Post(conf.Conf.Server.WorkerDomain+"/api/v1/send-url", "application/json; charset=UTF-8", bytes.NewBuffer([]byte(jsonVisitData)))
 				fmt.Println(result)
 			}()
 		})

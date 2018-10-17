@@ -13,3 +13,5 @@ domain_web_socket = "localhost:2000/ws"
 
 [testServer]
 test_domain = "http://localhost:3000/"
+worker_domain = "http://54.180.31.203:7000/"
+api_server_domain = "http://52.79.221.114:3000/"
