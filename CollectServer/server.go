@@ -77,7 +77,9 @@ func a() {
 		})
 		so.On("reqSignIn", func(data map[string]string) {
 			//log.Println(data)
-			resp, _ := http.Get(conf.Conf.Server.ApiServerDomain+"/api/v1/sign-in/" + data["username"] + "/" + data["password"])
+			resp, err := http.Get(conf.Conf.Server.ApiServerDomain+"/api/v1/sign-in/" + data["username"] + "/" + data["password"])
+			fmt.Println(resp.Body)
+			fmt.Println(err)
 			body, _ := ioutil.ReadAll(resp.Body)
 			rsUser := RsUser{}
 			json.Unmarshal(body, &rsUser)
